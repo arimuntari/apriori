@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 $listdata="";$jmldata = 0; $minsupport="";$minconfidence="";
 if(!empty($_POST)){
 	$jmldata = $_POST['jmldata'];
@@ -183,13 +184,14 @@ if(!empty($_POST)){
 				<div class="table-responsive">
 					<table class="table table-bordered">
 						<tr class="bg-primary">
-							<td colspan="4">Hasil</td>
+							<td colspan="5">Hasil</td>
 						</tr>
 						<tr class="bg-primary">
 							<td width="25">No</td>
 							<td>Aturan </td>
 							<td>Perbandingan</td>
 							<td>Persentase</td>
+							<td>Asosiasi</td>
 						</tr>
 						<?php 
 						$no=0;
@@ -206,6 +208,7 @@ if(!empty($_POST)){
 								<td><?php echo arrayToString($res["items"]);?></td>
 								<td><?php echo $res["total"]." : ".$res["value"];?></td>
 								<td><?php echo $res["total"]/$res["value"]*100; ?>%</td>
+								<td><?php echo assosiasi($res["items"]); ?></td>
 							</tr>
 							<?php
 						}
@@ -338,6 +341,16 @@ function arrayToString($arr){
 	$text = $arr[0];
 	for($i=1;$i<count($arr);$i++){
 		$text.= ", ".$arr[$i];
+	}
+	return $text;
+}
+function assosiasi($arr){
+	$text = "Jika membeli barang ".$arr[0]." maka membeli ";
+	for($i=1;$i<count($arr);$i++){
+		$text.= " ".$arr[$i];
+		if(count($arr)-1 != $i){
+		 $text.= " , ";
+		}
 	}
 	return $text;
 }
